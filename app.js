@@ -16,7 +16,7 @@ app.set('port', Number(process.env.PORT || 3000));
 
 
 //set static files folder
-app.use(express.static('./public'));
+app.use(express.static('http://localhost:8080/'));
 
 /** MIDDLEWARE **/
 
@@ -25,7 +25,7 @@ app.use(morgan('dev'));
 //Session cookies conf
 app.use(session({
     secret: 'palabraSecreta',
-    resave: false,
+    resave: true,
     saveUninitialized: true,
     expires: new Date(Date.now() + (30 * 86400 * 1000))
 }));

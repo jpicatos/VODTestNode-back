@@ -1,4 +1,6 @@
 var cacheableRequest = require('./cacheableRequest');
+var corsEnabled = require('./corsEnabled');
+
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var UserModel = require('../models/user');
@@ -7,12 +9,7 @@ var auth = require('./basicAuth');
 
 var urlencodedParse = bodyParser.urlencoded({extended: false});
 
-//Cors
-const corsEnabled = function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-};
+
 //Connect to the database
 mongoose.connect('mongodb://vodaccedo:vodaccedo123@ds115420.mlab.com:15420/vodaccedo',{
     useNewUrlParser: true
@@ -20,11 +17,12 @@ mongoose.connect('mongodb://vodaccedo:vodaccedo123@ds115420.mlab.com:15420/vodac
 
 
 module.exports = function(app){
-    
-    app.get('/api/content', corsEnabled, cacheableRequest, function(req, res){
+    app.get('/api/*', corsEnabled);
+
+    app.get('/api/content', cacheableRequest, function(req, res){
        res.json(req.result);
     });
-    app.get('/api/video/:id', corsEnabled, cacheableRequest, function(req, res){
+    app.get('/api/video/:id', cacheableRequest, function(req, res){
             var results = req.result;
             var index = -1;
             for (var i = 0; i < results.entries.length; i++){
@@ -82,10 +80,10 @@ module.exports = function(app){
         });
     });
     app.post('/api/login', urlencodedParse, auth, function(req, res){
-        console.log(req.session)
         req.session.authenticated = true;
         req.session.user = req.username;
-        res.redirect('/');
+        console.log(req.session);
+        res.json(req.session);
     });
     app.post('/api/register', urlencodedParse, function(req, res){
         console.log(req.body);
@@ -121,6 +119,7 @@ module.exports = function(app){
         res.redirect('/');
     });
     app.get('/api/session', function(req, res){
+        console.log(req.session);
         res.json(req.session);
     });
 }
