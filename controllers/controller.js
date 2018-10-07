@@ -18,6 +18,8 @@ mongoose.connect('mongodb://vodaccedo:vodaccedo123@ds115420.mlab.com:15420/vodac
 
 module.exports = function(app){
     app.get('/api/*', corsEnabled);
+    app.post('/api/*', corsEnabled);
+    app.delete('/api/*', corsEnabled);
 
     app.get('/api/content', cacheableRequest, function(req, res){
        res.json(req.result);
