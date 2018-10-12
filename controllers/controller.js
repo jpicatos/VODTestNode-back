@@ -63,7 +63,7 @@ module.exports = function(app){
             if(err){
                 throw err;
             }
-            res.json({entries: data, totalCount: data.length}});
+            res.json({entries: data, totalCount: data.length});
         });
     });
     app.delete('/api/history', function(req, res){
