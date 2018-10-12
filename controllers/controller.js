@@ -58,7 +58,7 @@ module.exports = function(app){
             }
         res.json(jsonVideo);            
     });
-    app.get('/api/history:userId', function(req, res){
+    app.get('/api/history/:userId', function(req, res){
         HistoryModel.find(req.params.userId, function(err, data){
             if(err){
                 throw err;
