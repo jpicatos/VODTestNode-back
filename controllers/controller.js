@@ -63,7 +63,7 @@ module.exports = function(app){
             if(err){
                 throw err;
             }
-            res.json({entries: data});
+            res.json({entries: data, totalCount: data.length}});
         });
     });
     app.delete('/api/history', function(req, res){
@@ -75,7 +75,7 @@ module.exports = function(app){
     app.delete('/api/history/:id', function(req, res){
         HistoryModel.find({itemId: req.params.id, userId: req.session.user}).remove(function(err, data){
             if(err) throw err;
-            res.json({data: data, totalCount: data.length});
+            res.json({entries: data, totalCount: data.length});
         });
     });
     app.post('/api/login', urlencodedParse, auth, function(req, res){
