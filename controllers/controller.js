@@ -57,7 +57,7 @@ module.exports = function (app) {
     
         res.json(jsonVideo);
     });
-    /*app.get('/api/video/:id', cacheableRequest, function (req, res) {
+    app.get('/api/video/:id', cacheableRequest, function (req, res) {
         var results = req.result;
         var index = -1;
         for (var i = 0; i < results.entries.length; i++) {
@@ -81,7 +81,7 @@ module.exports = function (app) {
             description: results.entries[index].description
         };
         res.json(jsonVideo);
-    });*/
+    });
     app.get('/api/history/:userId', function (req, res) {
         HistoryModel.find({ userId: req.params.userId }, function (err, data) {
             if (err) {
